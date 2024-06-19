@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input">
+    <input type="checkbox" id="checkbox">Remember Me
+    <button value="click" id="button">click</button>
+    <script>
+        let input = document.getElementById('input');
+        let checkbox = document.getElementById('checkbox');
+        let button = document.getElementById("button");
+        let storedData = localStorage.getItem('data');
+        let data;
+
+        if (storedData) {
+            data = JSON.parse(storedData);
+            checkbox.checked = true;
+            input.value =data[0].input;
+        } else {
+            data = [];
+        }
+
+        button.addEventListener('click',function(){
+            let obj = {
+                input: input.value
+            }
+            data.push(obj);
+            if(checkbox.checked){
+                localStorage.setItem('data',JSON.stringify(data));
+            }else{
+                localStorage.removeItem('data');
+                localStorage.clear();
+                input.value = '';
+            }
+        })
+
+    </script>
+</body>
+
+
+</html>

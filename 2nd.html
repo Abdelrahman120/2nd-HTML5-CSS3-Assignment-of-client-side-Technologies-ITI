@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input" placeholder="Enter item">
+    <button id="button">Add Task</button>
+    <ul></ul>
+
+    <script>
+        let input = document.getElementById('input');
+        let button = document.getElementById('button');
+        let data;
+
+        let storedData = localStorage.getItem('input');
+        if (storedData) {
+            data = JSON.parse(storedData);
+        } else {
+            data = [];
+        }
+
+        button.onclick = function () {
+            let obj = {
+                input: input.value
+            }
+            if(input.value !=""){
+                data.push(obj);
+            }
+            localStorage.setItem("input", JSON.stringify(data));
+            input.value = '';
+            show();
+        }
+
+        function show() {
+            let li = "";
+            for (let i = 0; i < data.length; i++) {
+                li += `
+                <li>${data[i].input}<button onclick="Delete(${i})" class="delete">delete</button></li>
+                `;
+            }
+            document.querySelector("ul").innerHTML = li;
+        }
+
+        function Delete(i) {
+            if(confirm("Are you sure")){
+                data.splice(i, 1);
+            }
+            localStorage.setItem("input", JSON.stringify(data));//store the data after the item deleted from it(the data deleted for infenity)
+            show();
+        }
+        show();
+    </script>
+</body>
+</html>
